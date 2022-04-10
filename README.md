@@ -1,7 +1,12 @@
-# xlib
-一个简单的量化研究框架，具备基本的数据获取、因子分析、机器学习、回测及结果分析功能
+# xlib-quant
+* 一个简单的量化研究框架，具备基本的数据获取、因子分析、机器学习、回测及结果分析功能。
+* 框架具体思路与内容请参考公众号FinHack炼金术《从零开始卷量化(25)-脱离Qlib，手撸一个属于自己的量化投资框架！ 》
+# 公众号
+![扫码_搜索联合传播样式-标准色版](https://user-images.githubusercontent.com/6196607/162598983-b11b756a-f4fd-4062-9d77-e414e2f072e1.jpg)
+# 框架整体思路
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/6196607/162599136-2a8286c8-b205-4f43-a894-61c771356920.png">
 
-    
+# 一把梭代码 
     import pandas as pd
     from xlib import data
     from xlib import factors
@@ -27,7 +32,7 @@
     backtest.analysis(returns,bench)
     
     
-    
+# 结果演示 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/6196607/162584205-8bb34525-4ff0-47c2-8b29-5674af881f29.png">
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/6196607/162584222-3ff3f10e-5a07-4621-a9c3-c903a0e8b34f.png">
 
