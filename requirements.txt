@@ -1,0 +1,8 @@
+akshare==1.5.3
+alphalens==0.4.0
+backtrader==1.9.76.123
+lightgbm==3.3.2
+numpy==1.22.3
+pandas==1.4.2
+QuantStats==0.0.50
+TA_Lib==0.4.24
