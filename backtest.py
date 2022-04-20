@@ -9,11 +9,9 @@ class Addmoredata(PandasData):
     params = (('score',5),('rank',6),('signal',7),)
     
     
-<<<<<<< HEAD
+
 def test(preds,strategy,hold_day=10,cash=1000000):
-=======
-def test(preds,strategy,cash=1000000):
->>>>>>> 518dc562530751adda57825fe3002a3d3ee48c53
+
     columns=['high','low','open','close','volume','score','rank','signal']
     cerebro = bt.Cerebro()
     datas=preds.groupby('symbol')
@@ -25,23 +23,15 @@ def test(preds,strategy,cash=1000000):
         data['date'] = pd.to_datetime(data['date'], format='%Y-%m-%d')
         data=data.set_index('date') 
         data=data.fillna(0)
-<<<<<<< HEAD
-        
-=======
->>>>>>> 518dc562530751adda57825fe3002a3d3ee48c53
+
         for column in columns:
             newdata[column]=data[column]
         data=Addmoredata(dataname=newdata)
         cerebro.adddata(data,name=str(symbol))   
     
     print("runing backtest...")
-    
-    cerebro.broker.setcash(cash)
-<<<<<<< HEAD
+
     cerebro.addstrategy(strategy,hold_day=hold_day,hold_n=10)
-=======
-    cerebro.addstrategy(strategy,hold_day=10,hold_n=10)
->>>>>>> 518dc562530751adda57825fe3002a3d3ee48c53
     cerebro.addanalyzer(bt.analyzers.TimeReturn, _name = "TimeReturn")
     results = cerebro.run()
     strat = results[0] 

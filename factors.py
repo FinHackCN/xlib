@@ -24,14 +24,33 @@ def analysis(df_all,factor_name,periods=[10]):
     price.index = pd.to_datetime(price.index)
     assets = df_all.set_index([df_all.index,df_all['symbol']], drop=True,append=False, inplace=False)
     assets=assets[~assets.index.duplicated()]
-
-
-
- 
-    
     ret = get_clean_factor_and_forward_returns(assets[factor_name],price,periods=[10],quantiles=None,bins=10,max_loss=1,groupby=None)
     sheet=alphalens.tears.create_full_tear_sheet(ret)
     
+    
+    
+    
+    
+def get_finance(ts_code,factors,df_cal,basic,start,end):
+    df_price=AStock.getStockDailyPriceByCode(ts_code,db)
+    df_price=pd.merge(df_cal,df_price,on=['trade_date'],how='outer', validate="one_to_many")
+    df_balance=mysql.selectToDf("select ann_date as trade_date,fix_assets,cip,intan_assets,r_and_d from astock_finance_balancesheet where ts_code='"+ts_code+"' and report_type=1 order by trade_date asc",db)
+    df_daily_basic=mysql.selectToDf("select trade_date,total_mv from astock_price_daily_basic where ts_code='"+ts_code+"' order by trade_date asc",db)
+    df=pd.merge(df_price, df_balance, how='left', on='trade_date', copy=True, indicator=False)
+    df=pd.merge(df, df_daily_basic, how='left', on='trade_date', copy=True, indicator=False)
+    df=df.fillna(method='ffill')
+    df['ts_code']=ts_code
+    df['industry']=str(basic[basic['ts_code']==ts_code]['industry'].values[0])
+    df=df[df.trade_date>'20150101']
+    df=df[df.trade_date<'20220410']
+    df=df.reset_index(drop=True)
+    df['f1']=df['fix_assets'].astype('float')/df['total_mv'].astype('float')
+    df['f2']=df['cip'].astype('float')/df['total_mv'].astype('float')
+    df['f3']=df['intan_assets'].astype('float')/df['total_mv'].astype('float')
+    df['f4']=df['r_and_d'].astype('float')/df['total_mv'].astype('float')
+    df.rename(columns={'ts_code':'symbol','trade_date':'date'}, inplace = True)
+    df['date']=df['date'].map(lambda x: x[:4]+'-'+x[4:6]+'-'+x[6:8])
+    return df
     
 
 def getTA(df):
